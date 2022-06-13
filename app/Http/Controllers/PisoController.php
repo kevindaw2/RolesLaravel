@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Blog;
+use App\Models\Piso;
 
-class BlogController extends Controller
+class PisoController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:ver-blog|crear-blog|editar-blog|borrar-blog')->only('index');
-         $this->middleware('permission:crear-blog', ['only' => ['create','store']]);
-         $this->middleware('permission:editar-blog', ['only' => ['edit','update']]);
-         $this->middleware('permission:borrar-blog', ['only' => ['destroy']]);
+         $this->middleware('permission:ver-piso|crear-piso|editar-piso|borrar-piso')->only('index');
+         $this->middleware('permission:crear-piso', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-piso', ['only' => ['edit','update']]);
+         $this->middleware('permission:borrar-piso', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -21,11 +21,11 @@ class BlogController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {       
+    {
          //Con paginación
-         $blogs = Blog::paginate(5);
-         return view('blogs.index',compact('blogs'));
-         //al usar esta paginacion, recordar poner en el el index.blade.php este codigo  {!! $blogs->links() !!}    
+         $pisos = Piso::paginate(5);
+         return view('pisos.index',compact('pisos'));
+         //al usar esta paginacion, recordar poner en el el index.blade.php este codigo  {!! $pisos->links() !!}
     }
 
     /**
@@ -35,7 +35,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blogs.crear');
+        return view('pisos.crear');
     }
 
     /**
@@ -48,12 +48,15 @@ class BlogController extends Controller
     {
         request()->validate([
             'titulo' => 'required',
+            'calle' => 'required',
+            'ciudad' => 'required',
+            'piscina' => 'required',
             'contenido' => 'required',
         ]);
-    
-        Blog::create($request->all());
-    
-        return redirect()->route('blogs.index');
+
+        Piso::create($request->all());
+
+        return redirect()->route('pisos.index');
     }
 
     /**
@@ -73,9 +76,9 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Blog $blog)
+    public function edit(Piso $piso)
     {
-        return view('blogs.editar',compact('blog'));
+        return view('pisos.editar',compact('piso'));
     }
 
     /**
@@ -85,16 +88,16 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Blog $blog)
+    public function update(Request $request, Piso $piso)
     {
          request()->validate([
             'titulo' => 'required',
             'contenido' => 'required',
         ]);
-    
-        $blog->update($request->all());
-    
-        return redirect()->route('blogs.index');
+
+        $piso->update($request->all());
+
+        return redirect()->route('pisos.index');
     }
 
     /**
@@ -103,10 +106,10 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Blog $blog)
+    public function destroy(Piso $piso)
     {
-        $blog->delete();
-    
-        return redirect()->route('blogs.index');
+        $piso->delete();
+
+        return redirect()->route('pisos.index');
     }
 }

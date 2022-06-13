@@ -27,10 +27,9 @@
 
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
-        <div class="navbar-bg"></div>
+        <div class="navbar-bg navbar-dark bg-dark"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
             @include('layouts.header')
-
         </nav>
         <div class="main-sidebar main-sidebar-postion">
             @include('layouts.sidebar')
